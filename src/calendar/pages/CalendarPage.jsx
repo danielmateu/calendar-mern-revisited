@@ -6,6 +6,7 @@ import { Navbar } from '../components/Navbar'
 
 import { localizer } from '../../helpers/calendarLocalizer'
 import { getMessagesEs } from '../../helpers/getMessages'
+import { CalendarEvent } from '../components/CalendarEvent'
 
 const events = [
     {
@@ -49,6 +50,9 @@ const CalendarPage = () => {
                 style={{ height: 'calc(100vh - 80px)' }}
                 messages={getMessagesEs()}
                 eventPropGetter={eventStyleGetter}
+                components={{
+                    event: CalendarEvent,
+                }}
             />
         </>
     )
