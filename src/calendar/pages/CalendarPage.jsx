@@ -7,6 +7,7 @@ import { Navbar } from '../components/Navbar'
 import { localizer } from '../../helpers/calendarLocalizer'
 import { getMessagesEs } from '../../helpers/getMessages'
 import { CalendarEvent } from '../components/CalendarEvent'
+import { useState } from 'react'
 
 const events = [
     {
@@ -24,6 +25,8 @@ const events = [
 
 const CalendarPage = () => {
 
+    const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
+
     const eventStyleGetter = (event, start, end, isSelected) => {
         // console.log({event, start, end, isSelected});
         const style = {
@@ -37,6 +40,20 @@ const CalendarPage = () => {
             style,
         }
     }
+
+    const onDoubleClick = (e) => {
+        console.log({onDoubleClick: e});
+    }
+
+    const onSelect = (e) => {
+        console.log({onSelect: e});
+    }
+
+    const onViewChanged = (e) => {
+        localStorage.setItem('lastView', e)
+        setLastView(e)
+    }
+
     return (
         <>
             <Navbar />
@@ -45,6 +62,7 @@ const CalendarPage = () => {
                 culture='es'
                 localizer={localizer}
                 events={events}
+                defaultView={lastView}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 'calc(100vh - 80px)' }}
@@ -53,6 +71,9 @@ const CalendarPage = () => {
                 components={{
                     event: CalendarEvent,
                 }}
+                onDoubleClickEvent={onDoubleClick}
+                onSelectEvent={onSelect}
+                onView={onViewChanged}
             />
         </>
     )
