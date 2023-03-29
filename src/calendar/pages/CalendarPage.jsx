@@ -10,25 +10,27 @@ import { CalendarEvent } from '../components/CalendarEvent'
 import { useState } from 'react'
 import { CalendarModal } from '../components/CalendarModal'
 import { useUiStore } from '../../hooks/useUiStore'
+import { useCalendarStore } from '../../hooks/useCalendarStore'
 
 
-const events = [
-    {
-        title: 'Cumpleaños del jefe',
-        notes: 'Comprar el pastel',
-        start: new Date(),
-        end: addHours(new Date(), 2),
-        bgcolor: '#fafafa',
-        user: {
-            _id: '123',
-            name: 'Dani',
-        }
-    },
-]
+// const events = [
+//     {
+//         title: 'Cumpleaños del jefe',
+//         notes: 'Comprar el pastel',
+//         start: new Date(),
+//         end: addHours(new Date(), 2),
+//         bgcolor: '#fafafa',
+//         user: {
+//             _id: '123',
+//             name: 'Dani',
+//         }
+//     },
+// ]
 
 const CalendarPage = () => {
 
     const {openDateModal, closeDateModal} = useUiStore()
+    const {events} = useCalendarStore()
 
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
