@@ -94,14 +94,10 @@ export const CalendarModal = () => {
             Swal.fire('Error', 'El título debe ser mayor a 2 letras', 'error')
             return
         }
-
-        // console.log(formValues);
-
-        // TODO:
+        
         await startSavingEvent(formValues)
         closeDateModal()
         setFormSubmited(false)
-        // Remover errores en pantalla
     }
 
     return (
