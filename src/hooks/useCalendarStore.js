@@ -12,10 +12,6 @@ export const useCalendarStore = () => {
         dispatch(onSetActiveEvent(calendarEvent))
     }
 
-    // const addNewEvent = (event) => {
-    //     dispatch(onAddNewEvent(event))
-    // }
-
     const startSavingEvent = async (calendarEvent) => {
         // Todo: Llegar al backend
         // Todo bien
@@ -28,29 +24,20 @@ export const useCalendarStore = () => {
 
     }
 
-    const deleteEvent = (event) => {
+    const startDeletingEvent = (event) => {
+        // Todo: Llegar al backend
         dispatch(onDeleteEvent(event))
     }
-
-
-    // const clearActiveEvent = () => {
-    //     // dispatch(onClearActiveEvent())
-    // }
-
-    // const updateEvent = (event) => {
-    //     // dispatch(onUpdateEvent(event))
-    // }
-
-
 
     return {
         // Propiedades
         events,
         activeEvent,
+        hasEventSelected: !!activeEvent,
 
         // Metodos
         setActiveEvent,
         startSavingEvent,
-        deleteEvent
+        startDeletingEvent
     }
 }
