@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 // import { onLogin } from "../store/auth/authSlice"
 import calendarApi from "../api/calendarApi"
+import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store/auth/authSlice"
 
 export const useAuthStore = () => {
 
@@ -12,15 +13,39 @@ export const useAuthStore = () => {
 
     const startLogin = async ({ email, password }) => {
         // console.log({ email, password });
-        // dispatch(onChecking())
-
+        dispatch(onChecking())
         try {
-            // const resp = await calendarApi.post('/auth/', { email, password });
-            const resp = await calendarApi.post('/auth', { email, password });
-            console.log(resp);
-            // dispatch(onLogin(data));
+            const { data } = await calendarApi.post('/auth', { email, password });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+
+            dispatch(onLogin({ name: data.name, uid: data.uid }));
+
         } catch (error) {
-            console.log(error);
+            // console.log(error);
+            dispatch(onLogout('Error en el login'));
+            setTimeout(() => {
+                dispatch(clearErrorMessage())
+            }, 300);
+        }
+    }
+
+    const startRegister = async ({ email, password, name }) => {
+
+        dispatch(onChecking())
+        try {
+            const { data } = await calendarApi.post('/auth/new', { email, password, name });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+
+            dispatch(onLogin({ name: data.name, uid: data.uid }));
+
+        } catch (error) {
+            // console.log(error);
+            dispatch(onLogout(error.response.data?.message || ''));
+            setTimeout(() => {
+                dispatch(clearErrorMessage())
+            }, 300);
         }
     }
 
@@ -32,5 +57,6 @@ export const useAuthStore = () => {
 
         // Métodos
         startLogin,
+        startRegister
     }
 }
