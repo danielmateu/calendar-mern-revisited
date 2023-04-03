@@ -13,6 +13,7 @@ import { useUiStore } from '../../hooks/useUiStore'
 import { useCalendarStore } from '../../hooks/useCalendarStore'
 import { FabAddNew } from '../components/FabAddNew'
 import { FabDelete } from '../components/FabDelete'
+import { useEffect } from 'react'
 
 
 // const events = [
@@ -32,7 +33,7 @@ import { FabDelete } from '../components/FabDelete'
 const CalendarPage = () => {
 
     const {openDateModal, closeDateModal} = useUiStore()
-    const {events, setActiveEvent} = useCalendarStore()
+    const {events, setActiveEvent, startLoadingEvents} = useCalendarStore()
 
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
@@ -64,6 +65,11 @@ const CalendarPage = () => {
         // localStorage.setItem('lastView', e)
         setLastView(e)
     }
+
+    useEffect(() => {
+        startLoadingEvents()
+    }, [])
+
 
     return (
         <>

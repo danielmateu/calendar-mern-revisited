@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onAddNewEvent, onDeleteEvent, onSetActiveEvent, onUpdateEvent } from "../store/calendar/calendarSlice"
+import { onAddNewEvent, onDeleteEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from "../store/calendar/calendarSlice"
+import calendarApi from "../api/calendarApi"
 
 
 export const useCalendarStore = () => {
 
-    const { events, activeEvent } = useSelector(state => state.calendar)
-    // console.log(events);
     const dispatch = useDispatch()
+    const { events, activeEvent } = useSelector(state => state.calendar)
+    const { user } = useSelector(state => state.auth)
+    // console.log(events);
 
     const setActiveEvent = (calendarEvent) => {
         dispatch(onSetActiveEvent(calendarEvent))
@@ -19,7 +21,11 @@ export const useCalendarStore = () => {
             // updateEvent(calendarEvent)
             dispatch(onUpdateEvent({ ...calendarEvent }))
         } else {
-            dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }))
+            // addNewEvent(calendarEvent)
+            const { data } = await calendarApi.post('/events', calendarEvent)
+            // console.log(data);
+
+            dispatch(onAddNewEvent({ ...calendarEvent, id: data.evento.id, user }))
         }
 
     }
@@ -27,6 +33,17 @@ export const useCalendarStore = () => {
     const startDeletingEvent = (event) => {
         // Todo: Llegar al backend
         dispatch(onDeleteEvent(event))
+    }
+
+    const startLoadingEvents = async () => {
+        try {
+            const { data } = await calendarApi.get('/events')
+            // console.log(data);
+            dispatch(onLoadEvents(data.events))
+        } catch (error) {
+            console.log(error);
+            console.log('Cargando eventos');
+        }
     }
 
     return {
@@ -38,6 +55,7 @@ export const useCalendarStore = () => {
         // Metodos
         setActiveEvent,
         startSavingEvent,
-        startDeletingEvent
+        startDeletingEvent,
+        startLoadingEvents
     }
 }

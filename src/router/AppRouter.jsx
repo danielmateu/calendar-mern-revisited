@@ -10,7 +10,9 @@ export const AppRouter = () => {
 
     // console.log(getEnvVariables());        
     // const authStatus = 'not-authenticated'
-    const { status, checkAuthToken } = useAuthStore()
+    const { status, 
+        checkAuthToken 
+    } = useAuthStore()
 
     useEffect(() => {
         checkAuthToken()
