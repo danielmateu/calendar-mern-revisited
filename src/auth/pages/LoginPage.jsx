@@ -23,7 +23,7 @@ const LoginPage = () => {
 
     const loginSubmit = (e) => {
         e.preventDefault();
-        console.log({loginEmail, loginPassword});
+        // console.log({loginEmail, loginPassword});
     }
 
     const {
@@ -36,7 +36,7 @@ const LoginPage = () => {
 
     const registerSubmit = (e) => {
         e.preventDefault();
-        console.log({registerName, registerEmail, registerPassword, registerPassword2});
+        // console.log({registerName, registerEmail, registerPassword, registerPassword2});
     }
 
     return (
