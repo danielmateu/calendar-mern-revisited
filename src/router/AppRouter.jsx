@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import LoginPage from '../auth/pages/LoginPage'
 import CalendarPage from '../calendar/pages/CalendarPage'
-import { getEnvVariables } from '../helpers/getEnvVariables'
+// import { getEnvVariables } from '../helpers/getEnvVariables'
 import { useAuthStore } from '../hooks/useAuthStore'
 import { useEffect } from 'react'
 
@@ -16,7 +16,7 @@ export const AppRouter = () => {
         checkAuthToken()
     }, [])
 
-    if(status === 'checking') {
+    if (status === 'checking') {
         return <div>Checking...</div>
     }
 
@@ -28,12 +28,23 @@ export const AppRouter = () => {
             {/* Todo */}
             {
                 (status === 'not-authenticated'
-                    ? <Route path="/auth/*" element={<LoginPage />} />
-                    : <Route path="/*" element={<CalendarPage />} />)
+                    ? (
+                        <>
+                            <Route path="/auth/*" element={<LoginPage />} />
+                            <Route path="/*" element={<Navigate to='/auth/login' />} />
+                        </>
+                    )
+                    : (
+                        <>
+                            <Route path="/" element={<CalendarPage />} />
+                            <Route path="/*" element={<Navigate to='/' />} />
+                        </>
+
+                    )
+                )
             }
             {/* <Route path="/auth/*" element={<LoginPage/>}/>
             <Route path="/*" element={<CalendarPage/>}/> */}
-            <Route path="/*" element={<Navigate to='/auth/login' />} />
         </Routes>
     )
 }
