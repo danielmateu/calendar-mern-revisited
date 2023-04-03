@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { onAddNewEvent, onDeleteEvent, onLoadEvents, onSetActiveEvent, onUpdateEvent } from "../store/calendar/calendarSlice"
 import calendarApi from "../api/calendarApi"
 import { convertEventsToDateEvents } from "../helpers/convertEventsToDateEvents"
+import Swal from "sweetalert2"
 
 
 export const useCalendarStore = () => {
@@ -18,16 +19,24 @@ export const useCalendarStore = () => {
     const startSavingEvent = async (calendarEvent) => {
         // Todo: Llegar al backend
         // Todo bien
-        if (calendarEvent._id) {
-            // updateEvent(calendarEvent)
-            dispatch(onUpdateEvent({ ...calendarEvent }))
-        } else {
-            // addNewEvent(calendarEvent)
-            const { data } = await calendarApi.post('/events', calendarEvent)
-            // console.log(data);
+        try {
 
+            if (calendarEvent.id) {
+                // Actualizando
+                await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent)
+                // updateEvent(calendarEvent)
+                dispatch(onUpdateEvent({ ...calendarEvent, user }))
+                return
+            }
+
+            // Creando
+            const { data } = await calendarApi.post('/events', calendarEvent)
             dispatch(onAddNewEvent({ ...calendarEvent, id: data.evento.id, user }))
+        } catch (error) {
+            console.log(error);
+            Swal.fire('Error', error.response.data.msg, 'error')
         }
+
 
     }
 
@@ -42,7 +51,7 @@ export const useCalendarStore = () => {
             // console.log(data);
             const events = convertEventsToDateEvents(data.eventos)
             // console.log(events);
-            dispatch(onLoadEvents(data.events))
+            dispatch(onLoadEvents(events))
         } catch (error) {
             console.log(error);
             console.log('Cargando eventos');
@@ -53,7 +62,7 @@ export const useCalendarStore = () => {
         // Propiedades
         events,
         activeEvent,
-        hasEventSelected: !!activeEvent?._id,
+        hasEventSelected: !!activeEvent?.id,
 
         // Metodos
         setActiveEvent,
