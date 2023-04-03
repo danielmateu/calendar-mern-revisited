@@ -8,7 +8,7 @@ export const AppRouter = () => {
 
     const authStatus = 'not-authenticated'
 
-    // console.log(getEnvVariables());        
+    console.log(getEnvVariables());        
 
     return (
         <Routes>

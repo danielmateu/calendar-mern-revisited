@@ -1,3 +1,4 @@
+import { useAuthStore } from '../../hooks/useAuthStore';
 import { useForm } from '../../hooks/useForm';
 import './LoginPage.css';
 
@@ -15,6 +16,8 @@ const registerFormFields = {
 
 const LoginPage = () => {
 
+    const { startLogin } = useAuthStore()
+
     const {
         loginEmail,
         loginPassword,
@@ -24,6 +27,7 @@ const LoginPage = () => {
     const loginSubmit = (e) => {
         e.preventDefault();
         // console.log({loginEmail, loginPassword});
+        startLogin({ email: loginEmail, password: loginPassword })
     }
 
     const {
@@ -87,7 +91,7 @@ const LoginPage = () => {
                                 type="text"
                                 className="form-control"
                                 placeholder="Nombre"
-                                name = "registerName"
+                                name="registerName"
                                 value={registerName}
                                 onChange={onRegisterInputChange}
                             />
@@ -97,7 +101,7 @@ const LoginPage = () => {
                                 type="email"
                                 className="form-control"
                                 placeholder="Correo"
-                                name = "registerEmail"
+                                name="registerEmail"
                                 value={registerEmail}
                                 onChange={onRegisterInputChange}
                             />
@@ -107,7 +111,7 @@ const LoginPage = () => {
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña"
-                                name = "registerPassword"
+                                name="registerPassword"
                                 value={registerPassword}
                                 onChange={onRegisterInputChange}
                             />
@@ -118,7 +122,7 @@ const LoginPage = () => {
                                 type="password"
                                 className="form-control"
                                 placeholder="Repita la contraseña"
-                                name = "registerPassword2"
+                                name="registerPassword2"
                                 value={registerPassword2}
                                 onChange={onRegisterInputChange}
                             />
