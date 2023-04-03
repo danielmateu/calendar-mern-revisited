@@ -62,7 +62,7 @@ const CalendarPage = () => {
     }
 
     const onViewChanged = (e) => {
-        // localStorage.setItem('lastView', e)
+        localStorage.setItem('lastView', e)
         setLastView(e)
     }
 
