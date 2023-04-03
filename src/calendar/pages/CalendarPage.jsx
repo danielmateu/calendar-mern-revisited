@@ -14,6 +14,7 @@ import { useCalendarStore } from '../../hooks/useCalendarStore'
 import { FabAddNew } from '../components/FabAddNew'
 import { FabDelete } from '../components/FabDelete'
 import { useEffect } from 'react'
+import { useAuthStore } from '../../hooks/useAuthStore'
 
 
 // const events = [
@@ -32,6 +33,8 @@ import { useEffect } from 'react'
 
 const CalendarPage = () => {
 
+    const {user} = useAuthStore()
+
     const {openDateModal, closeDateModal} = useUiStore()
     const {events, setActiveEvent, startLoadingEvents} = useCalendarStore()
 
@@ -39,8 +42,10 @@ const CalendarPage = () => {
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         // console.log({event, start, end, isSelected});
+        const isMyEvent = user.uid === event.user._id || user.uid === event.user.uid
+
         const style = {
-            backgroundColor: '#367CF7',
+            backgroundColor: isMyEvent ? '#367CF7' : '#5d6e79',
             borderRadius: '0px',
             opacity: 0.8,
             display: 'block',
