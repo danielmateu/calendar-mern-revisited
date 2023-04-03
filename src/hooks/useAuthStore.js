@@ -49,6 +49,27 @@ export const useAuthStore = () => {
         }
     }
 
+    const checkAuthToken = async () => {
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            dispatch(onLogout('Token no encontrado'));
+            return false;
+        }
+
+        try {
+            console.log(data);
+            const { data } = await calendarApi.get('/auth/renew');
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+        } catch (error) {
+            localStorage.clear()
+            console.log(error);
+            dispatch(onLogout(error.response.data?.message || ''));
+            return false;
+        }
+    }
+
     return {
         // Propiedades
         status,
@@ -57,6 +78,7 @@ export const useAuthStore = () => {
 
         // Métodos
         startLogin,
-        startRegister
+        startRegister,
+        checkAuthToken,
     }
 }
