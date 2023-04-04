@@ -52,7 +52,8 @@ describe('Tests sobre calendarSlice', () => {
         // calendarStateWithActiveEvent
         const state = calendarSlice.reducer(calendarWithEventsState, calendarSlice.actions.onDeleteEvent());
 
-        expect(state.events.length).toBe(2);
+        expect(state.events.length).toBe(events.length);
+        expect(state.activeEvent).toBeNull();
         
 
     });
@@ -62,6 +63,7 @@ describe('Tests sobre calendarSlice', () => {
         const state = calendarSlice.reducer(initialState, calendarSlice.actions.onLoadEvents(events));
 
         expect(state.events).toEqual(events);
+        expect(state.isLoadingEvents).toBe(false);
     });
 
     test('onLogOutCalendar debe de limpiar el estado', () => {
@@ -69,7 +71,7 @@ describe('Tests sobre calendarSlice', () => {
         const state = calendarSlice.reducer(calendarWithEventsState, calendarSlice.actions.onLogOutCalendar());
 
         expect(state).toEqual(initialState);
-        
+
     });
 
 })

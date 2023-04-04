@@ -65,14 +65,11 @@ export const useAuthStore = () => {
         }
     }
 
-
     const startLogout = () => {
         localStorage.clear()
         dispatch(onLogOutCalendar())
         dispatch(onLogout());
     }
-
-
 
     return {
         // Propiedades

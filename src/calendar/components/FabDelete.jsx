@@ -15,7 +15,7 @@ export const FabDelete = () => {
         //if hasEventSelected is true, then display the button, else, don't display it
         <button className='btn btn-danger fab-danger'
             onClick={handleClickDeleteEvent}
-            style={{ 
+            style={{
                 display: hasEventSelected ? '' : 'none'
             }}
         >
