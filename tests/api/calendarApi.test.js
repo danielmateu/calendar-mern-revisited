@@ -8,11 +8,10 @@ describe('Pruebas sobre calendarApi', () => {
     })
 
     test('Debe tener el header x-token en todas las peticiones', async() => {
-        localStorage.setItem('token', '123456789');
+        const token = '123456789'
+        localStorage.setItem('token', token);
         const resp = await calendarApi.get('/events');
-        expect(resp.config.headers['x-token']).toBe('123456789');
+        expect(resp.config.headers['x-token']).toBe(token);
     })
-
-    
 })
 
