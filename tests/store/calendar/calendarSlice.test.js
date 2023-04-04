@@ -48,4 +48,28 @@ describe('Tests sobre calendarSlice', () => {
         
     })
 
+    test('onDeleteEvent debe de borrar el evento', () => {
+        // calendarStateWithActiveEvent
+        const state = calendarSlice.reducer(calendarWithEventsState, calendarSlice.actions.onDeleteEvent());
+
+        expect(state.events.length).toBe(2);
+        
+
+    });
+
+    test('onLoadEvents debe de cargar los eventos', () => {
+        // initialState
+        const state = calendarSlice.reducer(initialState, calendarSlice.actions.onLoadEvents(events));
+
+        expect(state.events).toEqual(events);
+    });
+
+    test('onLogOutCalendar debe de limpiar el estado', () => {
+        // calendarStateWithActiveEvent
+        const state = calendarSlice.reducer(calendarWithEventsState, calendarSlice.actions.onLogOutCalendar());
+
+        expect(state).toEqual(initialState);
+        
+    });
+
 })
