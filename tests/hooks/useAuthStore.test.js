@@ -18,13 +18,28 @@ const getMockStore = (initialState) => {
 describe('Pruebas sobre useAuthStore', () => {
 
     test('Debe de regresar los valores por defecto', () => {
-        const mockStore = getMockStore({status: 'checking',user: null,errorMessage: null
+        const mockStore = getMockStore({
+            status: 'checking', user: null, errorMessage: null
         });
         const { result } = renderHook(() => useAuthStore(), { wrapper: ({ children }) => <Provider store={mockStore}>{children}</Provider> })
         const { status, user, errorMessage } = result.current;
+
+        // console.log(result);
+
         expect(status).toBe('checking');
         expect(user).toBe(null);
         expect(errorMessage).toBe(null);
 
+        expect(result.current).toEqual(
+            {
+                status: 'checking',
+                user: null,
+                errorMessage: null,
+                startLogin: expect.any(Function),
+                startRegister: expect.any(Function),
+                checkAuthToken: expect.any(Function),
+                startLogout: expect.any(Function)
+            }
+        )
     })
 })
